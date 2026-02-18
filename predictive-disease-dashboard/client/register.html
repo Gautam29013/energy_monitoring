@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Register — Predictive Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <meta name="theme-color" content="#0f2027">
+</head>
+<body>
+  <main class="hero">
+    <div class="hero-inner">
+      <h2>Create account</h2>
+      <form id="registerForm" style="max-width:480px;margin:18px auto;">
+        <div style="margin-bottom:12px"><input id="name" placeholder="Full name" required style="width:100%;padding:12px;border-radius:8px;border:none"/></div>
+        <div style="margin-bottom:12px"><input id="email" type="email" placeholder="Email" required style="width:100%;padding:12px;border-radius:8px;border:none"/></div>
+        <div style="margin-bottom:12px"><input id="password" type="password" placeholder="Password" required style="width:100%;padding:12px;border-radius:8px;border:none"/></div>
+        <div style="margin-bottom:12px">
+          <select id="role" style="width:100%;padding:12px;border-radius:8px;border:none">
+            <option value="patient">Patient</option>
+            <option value="doctor">Doctor</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        <div style="display:flex;gap:12px;justify-content:center"><button type="submit" class="btn btn-primary">Register</button><a class="btn btn-outline" href="login.html">Sign in</a></div>
+      </form>
+    </div>
+  </main>
+  <script src="js/auth.js"></script>
+  <script>
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const role = document.getElementById('role').value;
+      try {
+        // call register then redirect to login
+        const res = await fetch('/api/auth/register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, email, password, role }) });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || data.msg || 'Registration failed');
+        alert('Registered — please sign in');
+        location.href = 'login.html';
+      } catch (err) { alert(err.message || 'Registration failed'); }
+    });
+  </script>
+</body>
+</html>

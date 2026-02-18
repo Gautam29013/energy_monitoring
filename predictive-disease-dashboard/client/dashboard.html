@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dashboard — Predictive</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="brand"><div class="logo">🩺</div><h1>Dashboard</h1></div>
+    <div class="nav-links"><button id="logoutBtn" class="btn btn-outline">Logout</button></div>
+  </nav>
+
+  <main style="padding:24px;max-width:1100px;margin:0 auto">
+    <div id="roleBanner" style="margin-bottom:18px;color:var(--muted)"></div>
+
+    <div id="doctorPanel" style="display:none">
+      <div class="card"><h3>Doctor Panel</h3><p>View predictions, hotspot maps and patient reports.</p></div>
+    </div>
+
+    <div id="patientPanel" style="display:none">
+      <div class="card"><h3>Patient Panel</h3><p>Nearby risk and prevention tips.</p></div>
+    </div>
+
+    <div id="diseases" style="margin-top:18px">
+      <div class="card"><h3>Diseases & Medicines</h3>
+        <ul>
+          <li><strong>Cholera</strong> — ORS, Azithromycin, Doxycycline</li>
+          <li><strong>Typhoid</strong> — Ciprofloxacin, Ceftriaxone, Azithromycin</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/auth.js"></script>
+  <script>
+    async function init(){
+      try{
+        const user = await fetchMe();
+        document.getElementById('roleBanner').innerText = `Signed in as: ${user.name} (${user.role})`;
+        if(user.role === 'doctor') document.getElementById('doctorPanel').style.display = 'block';
+        if(user.role === 'patient') document.getElementById('patientPanel').style.display = 'block';
+      }catch(err){
+        console.error(err); location.href = 'login.html';
+      }
+    }
+    document.getElementById('logoutBtn').addEventListener('click', () => { logout(); });
+    init();
+  </script>
+</body>
+</html>

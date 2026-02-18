@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Predictive Disease Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <meta name="theme-color" content="#0f2027">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="brand">
+            <div class="logo">🩺</div>
+            <h1>Predictive Disease Dashboard</h1>
+        </div>
+        <div class="nav-links">
+            <a class="btn btn-outline" href="#">Login</a>
+            <a class="btn btn-primary" href="#">Register</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-inner">
+            <h2>48‑Hour Disease Outbreak Prediction</h2>
+            <p>Cholera & Typhoid monitoring — simulated predictions and hotspot mapping</p>
+            <div class="hero-actions">
+                <button id="generate" class="btn btn-cta">Generate Prediction</button>
+                <a href="#map" class="btn btn-ghost">View Map</a>
+            </div>
+        </div>
+        <div class="hero-decor">
+            <span class="dot a"></span>
+            <span class="dot b"></span>
+            <span class="dot c"></span>
+        </div>
+    </section>
+
+    <section class="dashboard">
+        <div class="card">
+            <h3>Admissions Trend</h3>
+            <canvas id="chart" width="400" height="200"></canvas>
+        </div>
+        <div class="card map-card" id="map" style="height:400px"></div>
+    </section>
+
+    <footer class="site-footer">
+        <div>© 2026 Predictive Dashboard • Demo project</div>
+        <div class="footer-links"><a href="#">Privacy</a> · <a href="#">Help</a></div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/map.js"></script>
+    <script>
+        document.getElementById('generate').addEventListener('click', async() => {
+            const res = await fetch('/api/predictions/generate');
+            const data = await res.json();
+            alert(`Risk: ${data.risk} — Probability: ${data.probability}%`);
+        });
+    </script>
+</body>
+
+</html>
